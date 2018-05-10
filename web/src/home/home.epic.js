@@ -21,6 +21,7 @@ export const parseCode = (action$, { getState }) =>
         .map(code => translateCode(code))
         .map((parsedCode) => {
             try {
+                document.getElementById('console-entry').innerText = '';
                 getState().home.webgl.apply(parsedCode);
                 getState().home.webgl.render();
             } catch (error) {
