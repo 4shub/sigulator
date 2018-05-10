@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./static/gl-matrix.min.js"></script>
+    <script type="text/javascript" src="./static.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sigulator is a simulator for Sig!.">
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>Sigulator</title>
+    <meta property="og:url" content="https://sigulator.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sigulator." />
+    <meta property="og:description" content="Sigulator." />
+    <meta property="fb:app_id" content="189001814930425" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<div id="root" style="height:100%;"></div>
+<script type="x-shader/x-vertex" id="vshader">
+     attribute vec3 coords;
+     uniform mat4 modelview;
+     uniform mat4 projection;
+     uniform bool lit;
+     uniform vec3 normal;
+     uniform mat3 normalMatrix;
+     uniform vec4 color;
+     varying vec4 vColor;
+     void main() {
+        vec4 coords = vec4(coords,1.0);
+        vec4 transformedVertex = modelview * coords;
+        gl_Position = projection * transformedVertex;
+        if (lit) {
+           vec3 unitNormal = normalize(normalMatrix*normal);
+           float multiplier = abs(unitNormal.z);
+           vColor = vec4( multiplier*color.r, multiplier*color.g, multiplier*color.b, color.a );
+        }
+        else {
+            vColor = color;
+        }
+     }
+</script>
+<script type="x-shader/x-fragment" id="fshader">
+     precision mediump float;
+     varying vec4 vColor;
+     void main() {
+         gl_FragColor = vColor;
+     }
+</script>
+
+</body>
+</html>

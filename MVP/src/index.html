@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sigulator</title>
+    <link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body>
+    <header>
+        <div class="title">Sigulator 1.0</div>
+        <button id="compile">Compile</button>
+    </header>
+    <article class="content">
+        <div class="code-container">
+            <div class="console-header">C++ (sig)</div>
+            <textarea class="code" id="code-entry">
+SnMyNode* c = new SnMyNode;
+c->init.set(1, 1, 0);
+c->width = 25;
+c->height = 25;
+c->color(GsColor::random());
+rootg()->add(c);
+            </textarea>
+        </div>
+        <div class="simulator">
+            <div class="console">
+                <canvas id="canvas" class="canvas"></canvas>
+            </div>
+            <div class="console">
+                <div class="console-header">Console</div>
+                <div class="console-entry" id="console-entry"></div>
+            </div>
+        </div>
+    </article>
+
+
+</body>
+
+
+<!-- vertex shader -->
+<script id="2d-vertex-shader" type="x-shader/x-vertex">
+attribute vec2 a_position;
+
+uniform vec2 u_resolution;
+
+void main() {
+   // convert the rectangle from pixels to 0.0 to 1.0
+   vec2 zeroToOne = a_position / u_resolution;
+
+   // convert from 0->1 to 0->2
+   vec2 zeroToTwo = zeroToOne * 2.0;
+
+   // convert from 0->2 to -1->+1 (clipspace)
+   vec2 clipSpace = zeroToTwo - 1.0;
+
+   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+</script>
+<!-- fragment shader -->
+<script id="2d-fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec4 u_color;
+
+void main() {
+   gl_FragColor = u_color;
+}
+</script>
+<!--
+for most samples webgl-utils only provides shader compiling/linking and
+canvas resizing because why clutter the examples with code that's the same in every sample.
+See http://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
+and http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+for webgl-utils, m3, m4, and webgl-lessons-ui.
+-->
+<script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+<script src="index.js"></script>
+</html>

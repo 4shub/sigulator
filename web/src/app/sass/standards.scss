@@ -1,0 +1,38 @@
+/* These ui elements should be the base for the theme of the app, any special modifications should go into the loaded scss */
+* {
+    box-sizing: border-box;
+
+    &.grey {
+    }
+
+    &.center-text {
+        text-align: center;
+    }
+
+    &.center-text {
+        text-align: center;
+    }
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: "Helvetica Neue";
+}
+
+
+button {
+    background: transparent;
+    border: 0px;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    cursor: pointer;
+
+    :nth-child(1) {
+        margin-right: 5px;
+    }
+}
+
